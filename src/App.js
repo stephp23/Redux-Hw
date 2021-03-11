@@ -1,53 +1,54 @@
-// React Redux tutorial | simple example | Part 3
-
+// React Redux Update State Immutable way Tutorial | Part - 4
 
 import React, { Component } from "react";
 import "./App.css";
+
+//its a function that returns higer order compoent
 import { connect } from "react-redux";
 
 class App extends Component {
-
-  // state = {
-  //   age:21
-  // }
-
-  // onAgeUp = () => {
-  //   this.setState({
-  //     ...this.state,
-  //     age:++this.state.age
-  //   })
-  // }
-
-  // onAgeDown = () => {
-  //   this.setState({
-  //     ...this.state,
-  //     age:--this.state.age
-  //   })
-  // }
-
   render() {
     return (
       <div className="App">
-        <div>Age: <span>{this.props.age}</span></div>
-        <button onClick={this.props.onAgeUp}>Age Up</button>
-        <button onClick={this.props.onAgeDown}>Age Down</button>
+        <div className="age">
+          Your age: <span>{this.props.age}</span>
+        </div>
+        <button className="ageUp" onClick={this.props.onAgeUp}>Age UP</button>
+        <button className="ageDown" onClick={this.props.onAgeDown}>Age Down</button>
+        <hr />
+        <div>History</div>
+        <div>
+          <ul>
+            {
+              this.props.history.map(el => (
+                <li className= "historyItem" key={el.id} onClick={() => this.props.onDelItem(el.id)}>
+                  {el.age}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    age:state.age
+    age: state.age,
+    history: state.history
   };
 };
 
-const mapDispachToProps = (dispatch) => {
+const mapDispachToProps = dispatch => {
   return {
     onAgeUp: () => dispatch({ type: "AGE_UP", value: 1 }),
-    onAgeDown: () => dispatch({ type: "AGE_DOWN", value: 1 })
+    onAgeDown: () => dispatch({ type: "AGE_DOWN", value: 1 }),
+    onDelItem : (id) => dispatch({type: "DEL_ITEM", key: id})
   };
 };
-
-
-export default connect(mapStateToProps,mapDispachToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispachToProps
+)(App);
