@@ -1,19 +1,26 @@
 const initialState = {
-  age:21
-};
+  a:1, 
+  b:1
+}
 
-const reducer = (state=initialState, action) => {
-  const newState = { ...state };
-  
-  if (action.type === 'AGE_UP') {
-    newState.age++;
+const reducer = (state = initialState, action) => {
+
+  if(action.type === 'UPDATE_A'){
+      return {
+          ...state, 
+          a:state.a + state.b
+      }
   }
 
-  if (action.type === 'AGE_DOWN') {
-    newState.age--;
+  if(action.type === 'UPDATE_B'){
+      return {
+          ...state, 
+          b:state.a + state.b
+      }
   }
 
-  return newState;
-};
+  return state;
+
+}
 
 export default reducer;
