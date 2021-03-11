@@ -1,53 +1,42 @@
-// React Redux tutorial | simple example | Part 3
-
+// Redux-thunk Middleware | React Redux Series Part 7
 
 import React, { Component } from "react";
 import "./App.css";
 import { connect } from "react-redux";
 
+import * as actionCreator from "./store/actions/actions";
+
+import logo from "./logo.svg";
+
 class App extends Component {
-
-  // state = {
-  //   age:21
-  // }
-
-  // onAgeUp = () => {
-  //   this.setState({
-  //     ...this.state,
-  //     age:++this.state.age
-  //   })
-  // }
-
-  // onAgeDown = () => {
-  //   this.setState({
-  //     ...this.state,
-  //     age:--this.state.age
-  //   })
-  // }
-
   render() {
     return (
       <div className="App">
-        <div>Age: <span>{this.props.age}</span></div>
-        <button onClick={this.props.onAgeUp}>Age Up</button>
+        <div className="Age-label">
+          your age: <span>{this.props.age}</span>
+        </div>
+        <button onClick={this.props.onAgeUp}>Age UP</button>
         <button onClick={this.props.onAgeDown}>Age Down</button>
+        {this.props.loading && <img src={logo} className="App-logo" />}
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    age:state.age
+    age: state.age,
+    loading: state.loading
   };
 };
 
-const mapDispachToProps = (dispatch) => {
+const mapDispachToProps = dispatch => {
   return {
-    onAgeUp: () => dispatch({ type: "AGE_UP", value: 1 }),
-    onAgeDown: () => dispatch({ type: "AGE_DOWN", value: 1 })
+    onAgeUp: () => dispatch(actionCreator.ageUp(1)),
+    onAgeDown: () => dispatch(actionCreator.ageDown(1))
   };
 };
-
-
-export default connect(mapStateToProps,mapDispachToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispachToProps
+)(App);
